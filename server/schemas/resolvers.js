@@ -38,6 +38,32 @@ const resolvers = {
 
             const token = signToken(user);
             return {token, user};
+        },
+
+        saveBook: async (parent,{book},context) =>{
+            if (context.user){
+                const updateUser = await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    { $push:{savedBooks: book}},
+                    {new: true}
+                );
+                return updateUser;
+            }
+            throw new AuthenticationError('Log in is required');
+        },
+
+        removeBook: async(parent,{bookId},context) =>{
+            if(context.user) {
+                const updateUser =await user.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {$pull:{savedBooks: {bookId: bookId}}},
+                    {new: true}
+                );
+                return updateUser;
+            }
+            throw new AuthenticationError('Log in is required');
         }
     }
 }
+
+module.exports = resolvers;
