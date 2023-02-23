@@ -6,6 +6,20 @@ import Navbar from './components/Navbar';
 import {ApolloProvider, ApolloClient, InMemoryCache, createHttpLink} from "@apollo/client"
 import {setContext} from '@apollo/client/link/context'
 
+const authLink = setContext((_,{headers})=>{
+  const token = localStorage.getItem('id_token');
+  return {
+    headers:{
+      ...headers,
+      authorization: token ? `Bearer ${token}` :''
+    }
+  }
+});
+
+const httpLink = createHttpLink({
+  uri: '/graphql'
+});
+
 function App() {
   return (
     <Router>
