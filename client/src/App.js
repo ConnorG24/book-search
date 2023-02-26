@@ -20,8 +20,14 @@ const httpLink = createHttpLink({
   uri: '/graphql'
 });
 
+const client = new ApolloClient({
+  link: authLink + httpLink,
+  cache: new InMemoryCache()
+})
+
 function App() {
   return (
+    <ApolloProvider client={client}>
     <Router>
       <>
         <Navbar />
@@ -41,6 +47,7 @@ function App() {
         </Routes>
       </>
     </Router>
+    </ApolloProvider>
   );
 }
 
