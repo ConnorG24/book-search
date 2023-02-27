@@ -20,7 +20,7 @@ const SearchBooks = () => {
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
   });
-
+const [saveBook] = useMutation(SAVE_BOOK);
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -66,7 +66,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
+      const response = await saveBook({variables: {input: {...bookToSave}}});
 
       if (!response.ok) {
         throw new Error('something went wrong!');
