@@ -12,7 +12,7 @@ const resolvers = {
                 return data;
             }
             throw new AuthenticationError('Log in is Required');
-        }
+        },
     },
 
     Mutation:{
